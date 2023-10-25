@@ -54,6 +54,35 @@ let totalPrice = 0;
     }
 );
 
+// Payment Info Section:
+const payment = document.querySelector("#payment");
+let creditCard = document.querySelector("#credit-card");
+let paypal = document.querySelector("#paypal");
+let bitcoin = document.querySelector("#bitcoin");
+paypal.hidden = true;
+bitcoin.hidden = true;
+payment.children[1].setAttribute('selected', '');
+console.log(payment.children);
+
+payment.addEventListener('change', (event) => {
+        if(event.target.value === payment.children[1].getAttribute("value")){
+            creditCard.style.display = 'block';
+            paypal.style.display = 'none';
+            bitcoin.style.display = 'none';
+        }
+        if(event.target.value === payment.children[2].getAttribute("value")){
+            paypal.style.display = 'block';
+            creditCard.style.display = 'none';
+            bitcoin.style.display = 'none';
+        }
+        if(event.target.value === payment.children[3].getAttribute("value")){
+            bitcoin.style.display = 'block';
+            paypal.style.display = 'none';
+            creditCard.style.display = 'none';
+        }
+});
+
+
 
 
 
