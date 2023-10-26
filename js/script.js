@@ -5,7 +5,7 @@ nameInput.focus();
 // Job Role Section:
 let jobRoleText = document.querySelector('#other-job-role').style.display = "none";
 
-let jobRole = document.querySelector('#title');
+const jobRole = document.querySelector('#title');
 jobRole.addEventListener('change', (e) => {
     if (e.target.value == 'other') {
         document.querySelector('#other-job-role').style.display = 'block';
@@ -56,9 +56,9 @@ activities.addEventListener('change', (event) => {
 
 // Payment Info Section:
 const payment = document.querySelector("#payment");
-let creditCard = document.querySelector("#credit-card");
-let paypal = document.querySelector("#paypal");
-let bitcoin = document.querySelector("#bitcoin");
+const creditCard = document.querySelector("#credit-card");
+const paypal = document.querySelector("#paypal");
+const bitcoin = document.querySelector("#bitcoin");
 paypal.hidden = true;
 bitcoin.hidden = true;
 payment.children[1].setAttribute('selected', '');
@@ -81,60 +81,96 @@ payment.addEventListener('change', (event) => {
     }
 });
 
-// Form validation:
+// Form validation & Visual Validation Errors::
 const form = document.querySelector('form');
 const emailInput = document.querySelector("#email");
 const cardInput = document.querySelector("#cc-num");
 const zipInput = document.querySelector("#zip");
 const cvvInput = document.querySelector("#cvv");
-const testS = document.getElementById("title");
+const isValidName = () => /^[a-zA-Z ]+$/.test(nameInput.value);
+const isValidEmail = () => /^[^@]+@[^@.]+\.[a-z]+$/i.test(emailInput.value);
+const isValidRegistration = () => {
+    for (i = 0; i < activity.length; i++) {
+        if (activity[i].checked)
+            return true;
+    } return false;
+};
+const isValidCard = () => (payment.value === "credit-card") && /^\d{13,16}[^-, " "]$/i.test(cardInput.value);
+const isValidZip = () => (payment.value === "credit-card") && /^\d{5}$/i.test(zipInput.value);
+const isValidInput = () => (payment.value === "credit-card") && /^\d{3}$/i.test(cvvInput.value);
 
-form.addEventListener('submit', (event) => {
-    let name = nameInput.value;
-    let email = emailInput.value;
-    let registration = testS.value;
-    let card = cardInput.value;
-    let zip = zipInput.value;
-    let cvv = cvvInput.value;
-
-    // name Regex:
-    const nameValidation = /^\w.+$/.test(name);
-    if (nameValidation === false) {
-        console.log('error name');
-        event.preventDefault();
+form.addEventListener("submit", (e) => {
+    if (isValidName()) {
+        nameInput.parentElement.classList.add("valid");
+        nameInput.parentElement.classList.remove("not-valid");
+        nameInput.parentElement.lastElementChild.style.display = "none";
+    } else {
+        e.preventDefault();
+        nameInput.parentElement.classList.add("not-valid");
+        nameInput.parentElement.classList.remove("valid");
+        nameInput.parentElement.lastElementChild.style.display = "block";
     }
 
-    // email Regex:
-    const emailValidation = /^[^@]+@[^@.]+\.[a-z]+$/i.test(email);
-    if (emailValidation === false) {
-        console.log('error email');
-        event.preventDefault();
+    if (isValidEmail()) {
+        emailInput.parentElement.classList.add("valid");
+        emailInput.parentElement.classList.remove("not-valid");
+        emailInput.parentElement.lastElementChild.style.display = "none";
+    } else {
+        e.preventDefault();
+        emailInput.parentElement.classList.add("not-valid");
+        emailInput.parentElement.classList.remove("valid");
+        emailInput.parentElement.lastElementChild.style.display = "block";
     }
 
-    // registration(Job Role) Regex:
-    const registrationValidation = /^(front-end developer|back-end developer|designer|full-stack js developer|student|other)$/.test(registration);
-    if (registrationValidation === false) {
-        console.log('error jorole');
-        event.preventDefault();
+    if (isValidRegistration()) {
+        activities.parentElement.classList.add("valid");
+        activities.parentElement.classList.remove("not-valid");
+        activities.parentElement.lastElementChild.style.display = "none";
+    } else {
+        e.preventDefault();
+        activities.parentElement.classList.add("not-valid");
+        activities.parentElement.classList.remove("valid");
+        activities.parentElement.lastElementChild.style.display = "block";
     }
 
-    // card Regex:
-    if (payment.value === "credit-card") {
-        const cardValidation = /^\d{13,16}[^-, " "]$/i.test(card);
-        const zipValidation = /^\d{5}$/i.test(zip);
-        const cvvValidation = /^\d{3}$/i.test(cvv);
-        if (cardValidation === false || zipValidation === false || cvvValidation === false) {
-            console.log("card error");
-            event.preventDefault();
-        }
+    if (isValidCard()) {
+        cardInput.parentElement.classList.add("valid");
+        cardInput.parentElement.classList.remove("not-valid");
+        cardInput.parentElement.lastElementChild.style.display = "none";
+    } else {
+        e.preventDefault();
+        cardInput.parentElement.classList.add("not-valid");
+        cardInput.parentElement.classList.remove("valid");
+        cardInput.parentElement.lastElementChild.style.display = "block";
     }
 
+    if (isValidZip()) {
+        zipInput.parentElement.classList.add("valid");
+        zipInput.parentElement.classList.remove("not-valid");
+        zipInput.parentElement.lastElementChild.style.display = "none";
+    } else {
+        e.preventDefault();
+        zipInput.parentElement.classList.add("not-valid");
+        zipInput.parentElement.classList.remove("valid");
+        zipInput.parentElement.lastElementChild.style.display = "block";
+    }
+
+    if (isValidInput()) {
+        cvvInput.parentElement.classList.add("valid");
+        cvvInput.parentElement.classList.remove("not-valid");
+        cvvInput.parentElement.lastElementChild.style.display = "none";
+    } else {
+        e.preventDefault();
+        cvvInput.parentElement.classList.add("not-valid");
+        cvvInput.parentElement.classList.remove("valid");
+        cvvInput.parentElement.lastElementChild.style.display = "block";
+    }
 });
 
 // The Activities Section:
 const boxInput = document.querySelectorAll("input[type=checkbox]");
 
-for (let i = 0; i < boxInput.length; i++){
+for (let i = 0; i < boxInput.length; i++) {
     boxInput[i].addEventListener('focus', () => {
         let addFocus = boxInput[i].parentElement.classList;
         addFocus.add("focus");
@@ -143,11 +179,4 @@ for (let i = 0; i < boxInput.length; i++){
         let removeFocus = boxInput[i].parentElement.classList;
         removeFocus.remove("focus");
     });
-}
-
-
-
-
-
-
-
+};
