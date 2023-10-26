@@ -131,6 +131,22 @@ form.addEventListener('submit', (event) => {
 
 });
 
+// The Activities Section:
+const boxInput = document.querySelectorAll("input[type=checkbox]");
+
+for (let i = 0; i < boxInput.length; i++){
+    boxInput[i].addEventListener('focus', () => {
+        let addFocus = boxInput[i].parentElement.classList;
+        addFocus.add("focus");
+    });
+    boxInput[i].addEventListener('blur', () => {
+        let removeFocus = boxInput[i].parentElement.classList;
+        removeFocus.remove("focus");
+    });
+}
+
+
+
 
 
 
