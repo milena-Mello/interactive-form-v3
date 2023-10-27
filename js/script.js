@@ -90,6 +90,7 @@ const emailInput = document.querySelector("#email");
 const cardInput = document.querySelector("#cc-num");
 const zipInput = document.querySelector("#zip");
 const cvvInput = document.querySelector("#cvv");
+
 const isValidName = () => /^[a-zA-Z ]+$/.test(nameInput.value);
 const isValidEmail = () => /^[^@]+@[^@.]+\.[a-z]+$/i.test(emailInput.value);
 const isValidRegistration = () => {
@@ -98,9 +99,11 @@ const isValidRegistration = () => {
             return true;
     } return false;
 };
-const isValidCard = () => (payment.value === "credit-card") && /^\d{13,16}[^-, " "]$/i.test(cardInput.value);
-const isValidZip = () => (payment.value === "credit-card") && /^\d{5}$/i.test(zipInput.value);
-const isValidInput = () => (payment.value === "credit-card") && /^\d{3}$/i.test(cvvInput.value);
+const isValidCard = () => /^\d{13,16}[^-, " "]$/i.test(cardInput.value);
+const isValidZip = () => /^\d{5}$/i.test(zipInput.value);
+const isValidCvv = () => /^\d{3}$/i.test(cvvInput.value);
+console.log(payment.value);
+
 
 form.addEventListener("submit", (e) => {
     if (isValidName()) {
@@ -126,48 +129,51 @@ form.addEventListener("submit", (e) => {
     }
 
     if (isValidRegistration()) {
-        activities.parentElement.classList.add("valid");
-        activities.parentElement.classList.remove("not-valid");
-        activities.parentElement.lastElementChild.style.display = "none";
+        activities.classList.add("valid");
+        activities.classList.remove("not-valid");
+        activities.lastElementChild.style.display = "none";
     } else {
         e.preventDefault();
-        activities.parentElement.classList.add("not-valid");
-        activities.parentElement.classList.remove("valid");
-        activities.parentElement.lastElementChild.style.display = "block";
+        activities.classList.add("not-valid");
+        activities.classList.remove("valid");
+        activities.lastElementChild.style.display = "block";
     }
-
-    if (isValidCard()) {
-        cardInput.parentElement.classList.add("valid");
-        cardInput.parentElement.classList.remove("not-valid");
-        cardInput.parentElement.lastElementChild.style.display = "none";
-    } else {
-        e.preventDefault();
-        cardInput.parentElement.classList.add("not-valid");
-        cardInput.parentElement.classList.remove("valid");
-        cardInput.parentElement.lastElementChild.style.display = "block";
-    }
-
-    if (isValidZip()) {
-        zipInput.parentElement.classList.add("valid");
-        zipInput.parentElement.classList.remove("not-valid");
-        zipInput.parentElement.lastElementChild.style.display = "none";
-    } else {
-        e.preventDefault();
-        zipInput.parentElement.classList.add("not-valid");
-        zipInput.parentElement.classList.remove("valid");
-        zipInput.parentElement.lastElementChild.style.display = "block";
-    }
-
-    if (isValidInput()) {
-        cvvInput.parentElement.classList.add("valid");
-        cvvInput.parentElement.classList.remove("not-valid");
-        cvvInput.parentElement.lastElementChild.style.display = "none";
-    } else {
-        e.preventDefault();
-        cvvInput.parentElement.classList.add("not-valid");
-        cvvInput.parentElement.classList.remove("valid");
-        cvvInput.parentElement.lastElementChild.style.display = "block";
-    }
+    if (payment.value === "credit-card") {
+        if (isValidCard()) {
+            cardInput.parentElement.classList.add("valid");
+            cardInput.parentElement.classList.remove("not-valid");
+            cardInput.parentElement.lastElementChild.style.display = "none";
+        } else {
+            e.preventDefault();
+            cardInput.parentElement.classList.add("not-valid");
+            cardInput.parentElement.classList.remove("valid");
+            cardInput.parentElement.lastElementChild.style.display = "block";
+        }        
+    }  
+    if (payment.value === "credit-card") {
+        if (isValidZip()) {
+            zipInput.parentElement.classList.add("valid");
+            zipInput.parentElement.classList.remove("not-valid");
+            zipInput.parentElement.lastElementChild.style.display = "none";
+        } else {
+            e.preventDefault();
+            zipInput.parentElement.classList.add("not-valid");
+            zipInput.parentElement.classList.remove("valid");
+            zipInput.parentElement.lastElementChild.style.display = "block";
+        } 
+    }   
+    if (payment.value === "credit-card") {
+        if (isValidCvv()) {
+            cvvInput.parentElement.classList.add("valid");
+            cvvInput.parentElement.classList.remove("not-valid");
+            cvvInput.parentElement.lastElementChild.style.display = "none";
+        } else {
+            e.preventDefault();
+            cvvInput.parentElement.classList.add("not-valid");
+            cvvInput.parentElement.classList.remove("valid");
+            cvvInput.parentElement.lastElementChild.style.display = "block";
+        } 
+    }   
 });
 
 // The Activities Section:
