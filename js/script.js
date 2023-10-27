@@ -15,20 +15,23 @@ jobRole.addEventListener('change', (e) => {
 });
 
 // T-Shirt Info Section:
-let color = document.querySelector('#color').disabled = true;
+let color = document.querySelector('#color');
+color.disabled = true;
 let designElement = document.querySelector('#design');
-let colorOptions = document.querySelectorAll("option[data-theme]");
+let colorOptions = color.children;
 
-designElement.addEventListener('change', () => {
+designElement.addEventListener('change', (e) => {
     document.querySelector('#color').disabled = false;
 
     for (let i = 0; i < colorOptions.length; i++) {
-        if (designElement.value !== colorOptions[i].getAttribute("data-theme")) {
-            colorOptions[i].hidden = true;
-            colorOptions[i].disabled = true;
-        } else {
+        let optionValue = e.target.value;
+        let dataTheme = colorOptions[i].getAttribute("data-theme");
+        if (optionValue === dataTheme) {
             colorOptions[i].hidden = false;
-            colorOptions[i].disabled = false;
+            colorOptions[i].setAttribute("selected", " ");
+        } else {
+            colorOptions[i].hidden = true;
+            colorOptions[i].removeAttribute("selected");
         }
     }
 });
